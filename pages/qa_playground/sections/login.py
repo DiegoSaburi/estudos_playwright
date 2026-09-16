@@ -6,6 +6,7 @@ class LoginForm:
         self.email = page.get_by_test_id("input-login-email")
         self.password = page.get_by_test_id("form-login-inner").get_by_role("textbox", name="Password")
         self.submit = page.get_by_test_id("btn-login-submit")
+        self.result = page.get_by_test_id("result-login")
 
     def fill(self, email: str = "", password: str = "") -> None:
         self.email.fill(email)

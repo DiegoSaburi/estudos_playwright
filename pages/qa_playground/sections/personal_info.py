@@ -11,23 +11,10 @@ class PersonalDetailsForm:
         self.female = page.get_by_test_id("radio-gender-female")
         self.other = page.get_by_test_id("radio-gender-other")
         self.submit = page.get_by_test_id("btn-personal-submit")
+        self.result = page.get_by_test_id("result-personal")
 
-    def select_gender(self, gender: str) -> None:
-        gender_map = {
-            "male": self.male,
-            "female": self.female,
-            "other": self.other,
-        }
-
-        key = gender.lower()
-        if key in gender_map:
-            gender_map[key].check()
-
-    def fill(self, first_name: str = "", last_name: str = "", phone: str = "", dob: str = "", gender: str = "") -> None:
+    def fill(self, first_name: str = "", last_name: str = "", phone: str = "", dob: str = "") -> None:
         self.first_name.fill(first_name)
         self.last_name.fill(last_name)
         self.phone.fill(phone)
         self.dob.fill(dob)
-
-        if gender:
-            self.select_gender(gender)

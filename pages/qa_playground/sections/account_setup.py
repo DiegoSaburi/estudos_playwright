@@ -6,6 +6,8 @@ class AccountSetupForm:
         self.password = page.get_by_test_id("input-password")
         self.confirm = page.get_by_test_id("input-confirm-password")
         self.submit = page.get_by_test_id("submit-form-btn")
+        self.terms = page.get_by_test_id("checkbox-terms")
+        self.success_message = page.get_by_test_id("form-success-msg")
 
     def fill(self, password: str = "", confirm_password: str = "") -> None:
         self.password.fill(password)
