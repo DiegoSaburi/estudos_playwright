@@ -25,5 +25,8 @@ class TodoPage:
     def show_active(self) -> None:
         self.filters.show_active()
 
+    def open_todomvc(self) -> None:
+        self.filters.open_todomvc()
+
     def get_body_text(self) -> str:
         return self.page.locator("body").inner_text()

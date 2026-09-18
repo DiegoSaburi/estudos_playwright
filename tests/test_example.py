@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import expect
 
 from pages.qa_playground.page import PlaygroundFormPage
 from pages.todo.page import TodoPage
@@ -16,20 +16,11 @@ def test_todo_app_tracks_tasks(todo_page: TodoPage):
     todo_page.add_todo("89")
     todo_page.add_todo("0")
 
-    todo_page.page.locator("li:nth-child(9) > .view > .toggle").check()
-    todo_page.page.locator("li:nth-child(10) > .view > .toggle").check()
-    todo_page.page.locator("li:nth-child(8) > .view > .toggle").check()
-    todo_page.page.locator("li:nth-child(7) > .view > .toggle").check()
-    todo_page.page.get_by_role("listitem").filter(has_text="6").get_by_label("Toggle Todo").check()
-    todo_page.page.get_by_role("listitem").filter(has_text="5").get_by_label("Toggle Todo").check()
-    todo_page.page.get_by_role("listitem").filter(has_text="4").get_by_label("Toggle Todo").check()
-    todo_page.page.get_by_role("listitem").filter(has_text="3").get_by_label("Toggle Todo").check()
-    todo_page.page.get_by_role("listitem").filter(has_text="2").get_by_label("Toggle Todo").check()
-    todo_page.page.get_by_role("listitem").filter(has_text="uma task").get_by_label("Toggle Todo").check()
+    todo_page.complete_todos(["89", "0", "8", "7", "6", "5", "4", "3", "2", "uma task"])
 
-    todo_page.page.get_by_role("link", name="Active").click()
-    expect(todo_page.page.locator("body")).to_contain_text("0 items left")
-    todo_page.page.get_by_role("link", name="real TodoMVC app.").click()
+    todo_page.show_active()
+    assert "0 items left" in todo_page.get_body_text()
+    todo_page.open_todomvc()
 
 
 def test_complete_qa_playground_form(qa_playground_form_page: PlaygroundFormPage):

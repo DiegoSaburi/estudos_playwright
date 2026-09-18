@@ -6,7 +6,9 @@ class TodoListSection:
         self.page = page
 
     def item(self, text: str):
-        return self.page.get_by_role("listitem").filter(has_text=text)
+        return self.page.get_by_role("listitem").filter(
+            has=self.page.get_by_text(text, exact=True)
+        )
 
     def toggle(self, text: str) -> None:
         self.item(text).get_by_label("Toggle Todo").check()
