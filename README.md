@@ -12,8 +12,13 @@ A estrutura foi organizada para separar responsabilidades por funcionalidade e m
 ├── pytest.ini               # Configuração do pytest
 ├── requirements.txt         # Dependências do projeto
 ├── README.md                # Documentação do projeto
-├── fixtures/                # Fixtures customizadas e utilitários de ambiente
+├── config/                   # Configurações YAML e loader de ambientes
+├── data/                     # Personas e dados de teste
+├── models/                   # Modelos de domínio dos testes
 ├── pages/
+│   ├── base_page.py         # Comportamento comum dos Page Objects
+│   ├── login/               # Page Object de login
+│   ├── bank/                # Page Object da aplicação bancária
 │   ├── qa_playground/
 │   │   ├── page.py          # Page Object principal da página de formulário
 │   │   └── sections/        # Seções da página (login, personal info, address, interests, password)
@@ -49,8 +54,16 @@ Responsável por criar os fixtures do pytest, como por exemplo:
 - `playwright_page`: página genérica para testes de site externo
 - `todo_page`: Page Object da página TodoMVC
 - `qa_playground_form_page`: Page Object da página de formulário
+- `login_page` e `bank_page`: páginas da aplicação bancária
+- `standard_user`, `locked_user`, `frozen_user`, `overdraft_user`, `slow_user`, `error_user` e `admin_user`: personas autenticadas
 
 Esses fixtures deixam os testes mais legíveis e evitam repetição de setup.
+
+#### `config/`, `models/` e `data/`
+
+- `config/`: define o ambiente executado e seus URLs/timeouts. O ambiente é selecionado com `--env`.
+- `models/`: define estruturas tipadas, como `User`.
+- `data/`: contém personas reutilizáveis; credenciais não pertencem aos YAMLs de ambiente.
 
 ---
 
@@ -152,6 +165,8 @@ def test_submit_checkout(checkout_page: CheckoutPage):
     )
 ```
 
+Os Page Objects do projeto recebem `config.web_base_url` e constroem suas URLs a partir de um `PATH` relativo. As Sections encapsulam locators e ações; assertions ficam nos testes.
+
 ### 7) Mantenha os testes simples e de negócio
 
 Os testes não devem ficar cheios de detalhes de CSS, IDs ou manipulação cara a cara com o DOM. A ideia é deixar o código assim:
@@ -178,6 +193,9 @@ Os testes não devem ficar cheios de detalhes de CSS, IDs ou manipulação cara 
 
 ```bash
 pytest
+pytest --env=qa1
+pytest --env=qa2
+pytest --env=stg
 ```
 
 Ou para um arquivo específico:
@@ -194,6 +212,8 @@ python -m venv .venv
 pip install -r requirements.txt
 playwright install
 ```
+
+Os arquivos `config/qa1.yml`, `config/qa2.yml` e `config/stg.yml` usam os hosts públicos já presentes no projeto (`qaplayground.com`, `demo.playwright.dev` e `playwright.dev`). Como não havia URLs reais de QA2 ou STG no repositório, esses valores devem ser substituídos antes de executar contra ambientes internos.
 
 Esse padrão facilita manter o projeto organizado conforme vai crescendo e ajuda muito na reutilização de código entre páginas e cenários.
 

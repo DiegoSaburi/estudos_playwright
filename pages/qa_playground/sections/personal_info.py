@@ -10,7 +10,7 @@ class PersonalDetailsForm:
         self.male = page.get_by_test_id("radio-gender-male")
         self.female = page.get_by_test_id("radio-gender-female")
         self.other = page.get_by_test_id("radio-gender-other")
-        self.submit = page.get_by_test_id("btn-personal-submit")
+        self.submit_button = page.get_by_test_id("btn-personal-submit")
         self.result = page.get_by_test_id("result-personal")
 
     def fill(self, first_name: str = "", last_name: str = "", phone: str = "", dob: str = "") -> None:
@@ -18,3 +18,6 @@ class PersonalDetailsForm:
         self.last_name.fill(last_name)
         self.phone.fill(phone)
         self.dob.fill(dob)
+
+    def submit(self) -> None:
+        self.submit_button.click()

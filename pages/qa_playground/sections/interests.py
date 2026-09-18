@@ -8,5 +8,8 @@ class InterestsForm:
         self.cypress = page.get_by_test_id("checkbox-interest-cypress")
         self.appium = page.get_by_test_id("checkbox-interest-appium")
         self.jest = page.get_by_test_id("checkbox-interest-jest")
-        self.submit = page.get_by_test_id("btn-interests-submit")
+        self.submit_button = page.get_by_test_id("btn-interests-submit")
         self.result = page.get_by_test_id("result-interests")
+
+    def submit(self) -> None:
+        self.submit_button.click()

@@ -1,0 +1,13 @@
+environment: qa1
+
+web:
+  base_url: "https://qaplayground.com"
+  todo_base_url: "https://demo.playwright.dev"
+  playwright_base_url: "https://playwright.dev"
+
+api:
+  base_url: "https://qaplayground.com"
+
+timeouts:
+  default: 10000
+  navigation: 30000

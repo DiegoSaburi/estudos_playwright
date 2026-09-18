@@ -1,13 +1,16 @@
 from playwright.sync_api import Page
 
+from pages.base_page import BasePage
 from pages.todo.sections.filters import TodoFiltersSection
 from pages.todo.sections.new_todo import NewTodoSection
 from pages.todo.sections.todo_list import TodoListSection
 
 
-class TodoPage:
-    def __init__(self, page: Page):
-        self.page = page
+class TodoPage(BasePage):
+    PATH = "/todomvc/#/"
+
+    def __init__(self, page: Page, base_url: str):
+        super().__init__(page, base_url)
         self.new_todo = NewTodoSection(page)
         self.todo_list = TodoListSection(page)
         self.filters = TodoFiltersSection(page)
