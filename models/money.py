@@ -8,6 +8,10 @@ from typing import Self
 class Money:
 	value: Decimal
 
+	def __str__(self) -> str:
+		sign = "-" if self.value < 0 else ""
+		return f"{sign}${abs(self.value):,.2f}"
+
 	@classmethod
 	def from_text(cls, text: str) -> Self:
 		value = re.sub(r"[^\d.-]", "", text)
