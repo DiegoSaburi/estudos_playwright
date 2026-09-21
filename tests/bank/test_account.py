@@ -2,8 +2,6 @@ import re
 
 from playwright.sync_api import expect
 
-from models.account import Account, AccountType
-from models.money import Money
 from models.user import User
 from pages.accounts.page import AccountsPage
 from pages.sidebar.page import SidebarPage

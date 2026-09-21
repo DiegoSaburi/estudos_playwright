@@ -13,6 +13,7 @@ from data.users import (
     SLOW_USER,
     STANDARD_USER,
 )
+from fixtures.account import create_account
 from models.user import User
 from pages.sidebar.page import SidebarPage
 from pages.accounts.page import AccountsPage
@@ -21,6 +22,7 @@ from pages.dashboard.page import DashboardPage
 from pages.login.page import LoginPage
 from pages.qa_playground.page import PlaygroundFormPage
 from pages.todo.page import TodoPage
+from pages.transfer.page import TransferPage
 
 
 def pytest_addoption(parser):
@@ -90,6 +92,13 @@ def dashboard_page(page: Page, config: Config) -> DashboardPage:
 @pytest.fixture
 def accounts_page(page: Page, config: Config) -> AccountsPage:
     return AccountsPage(page, config.web_base_url)
+
+
+@pytest.fixture
+def transfer_page(page: Page, config: Config) -> TransferPage:
+    transfer = TransferPage(page, config.web_base_url)
+    transfer.open()
+    return transfer
 
 @pytest.fixture
 def sidebar_page(page: Page) -> SidebarPage:

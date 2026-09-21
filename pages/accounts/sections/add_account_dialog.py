@@ -1,4 +1,6 @@
 from playwright.sync_api import Locator, Page
+
+from models.account import Account
 from models.account import AccountType
 from models.money import Money
 
@@ -17,6 +19,13 @@ class AddAccountDialog:
 
 	def fill_initial_balance(self, balance: Money) -> None:
 		self.initial_balance_input.fill(str(balance.value))
+
+	def add_account(self, account: Account) -> None:
+		self.name_input.fill(account.name)
+		self.select_account_type(account.type)
+		self.fill_initial_balance(account.starting_balance)
+		self.accept_terms()
+		self.save()
 
 	def select_account_type(self, account_type: AccountType) -> None:
 		self.type_options.click()
