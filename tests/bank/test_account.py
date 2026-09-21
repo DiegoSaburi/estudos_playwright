@@ -7,6 +7,7 @@ from models.money import Money
 from models.user import User
 from pages.accounts.page import AccountsPage
 from pages.sidebar.page import SidebarPage
+from data.account_factory import AccountFactory
 
 
 def test_verify_accounts_list_load(
@@ -26,11 +27,7 @@ def test_create_account(
     accounts_page: AccountsPage,
     sidebar_page: SidebarPage,
 ):
-    account = Account(
-        name="Automation Account",
-        type=AccountType.CHECKING,
-        starting_balance=Money.from_text("0.00"),
-    )
+    account = AccountFactory().create()
 
     sidebar_page.accounts.click()
     expect(accounts_page.account_page).to_be_visible()
