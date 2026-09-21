@@ -14,7 +14,10 @@ from data.users import (
     STANDARD_USER,
 )
 from models.user import User
+from pages.sidebar.page import SidebarPage
+from pages.accounts.page import AccountsPage
 from pages.bank.page import BankPage
+from pages.dashboard.page import DashboardPage
 from pages.login.page import LoginPage
 from pages.qa_playground.page import PlaygroundFormPage
 from pages.todo.page import TodoPage
@@ -78,6 +81,19 @@ def bank_page(page: Page, config: Config) -> BankPage:
     bank.open()
     return bank
 
+
+@pytest.fixture
+def dashboard_page(page: Page, config: Config) -> DashboardPage:
+    return DashboardPage(page, config.web_base_url)
+
+
+@pytest.fixture
+def accounts_page(page: Page, config: Config) -> AccountsPage:
+    return AccountsPage(page, config.web_base_url)
+
+@pytest.fixture
+def sidebar_page(page: Page) -> SidebarPage:
+    return SidebarPage(page)
 
 @pytest.fixture
 def login_as(login_page: LoginPage) -> Callable[[User], User]:
