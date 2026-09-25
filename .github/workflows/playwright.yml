@@ -1,0 +1,57 @@
+name: Playwright tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 5"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check fortnightly schedule
+        id: fortnightly
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif ((10#$(date -u +%V) % 2 == 0)); then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout repository
+        if: steps.fortnightly.outputs.run == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: steps.fortnightly.outputs.run == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        if: steps.fortnightly.outputs.run == 'true'
+        run: python -m pip install -r requirements.txt
+
+      - name: Install Playwright browser
+        if: steps.fortnightly.outputs.run == 'true'
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run tests headless
+        if: steps.fortnightly.outputs.run == 'true'
+        run: >-
+          python -m pytest
+          --override-ini
+          "addopts=--tracing retain-on-failure --video retain-on-failure --screenshot only-on-failure"
+
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            test-results/
+            playwright-report/
