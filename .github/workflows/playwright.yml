@@ -41,15 +41,18 @@ jobs:
         if: steps.fortnightly.outputs.run == 'true'
         run: python -m playwright install --with-deps chromium
 
-      - name: Run tests
+      - name: Run tests headless
         if: steps.fortnightly.outputs.run == 'true'
-        run: python -m pytest
+        run: >-
+          python -m pytest
+          --override-ini
+          "addopts=--tracing retain-on-failure --video retain-on-failure --screenshot only-on-failure --alluredir results/allure-results --html results/report.html --self-contained-html"
 
       - name: Upload test results
         if: always() && steps.fortnightly.outputs.run == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-results-${{ github.run_number }}
           path: results/
           if-no-files-found: warn
           retention-days: 14
