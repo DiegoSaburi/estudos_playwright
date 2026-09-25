@@ -85,4 +85,8 @@ def test_verify_insufficient_funds_validation(
 	transfer_page.form.fill_memo("Insufficient funds transfer")
 	transfer_page.form.review()
 
-	expect(transfer_page.confirmation.dialog).not_to_be_visible()
+	expect(transfer_page.confirmation.dialog).to_be_visible()
+	transfer_page.confirmation.confirm()
+
+	expect(transfer_page.form.error_message).to_be_visible()
+	expect(transfer_page.form.error_message).to_contain_text(f'Insufficient funds. Available balance: {str(source_account.starting_balance)}.')

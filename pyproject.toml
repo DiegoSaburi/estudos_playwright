@@ -1,5 +1,6 @@
 [tool.pytest.ini_options]
 addopts = [
+    "--headed",
     "--tracing", "retain-on-failure",
     "--video", "retain-on-failure",
     "--screenshot", "only-on-failure",

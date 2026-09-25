@@ -15,6 +15,7 @@ class TransferFormSection:
 			"textbox", name="e.g. Rent, vacation fund…"
 		)
 		self.review_button: Locator = page.get_by_test_id("review-transfer-btn")
+		self.error_message: Locator = page.get_by_test_id("transfer-error-message")
 
 	def fill_transfer(self, transfer: Transfer) -> None:
 		self.select_source_account(transfer.from_account)
