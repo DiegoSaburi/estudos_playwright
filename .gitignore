@@ -13,6 +13,7 @@ htmlcov/
 
 # Playwright artifacts
 test-results/
+results/
 playwright-report/
 blob-report/
 

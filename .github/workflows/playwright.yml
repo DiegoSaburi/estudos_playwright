@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check fortnightly schedule
         id: fortnightly
@@ -40,18 +41,15 @@ jobs:
         if: steps.fortnightly.outputs.run == 'true'
         run: python -m playwright install --with-deps chromium
 
-      - name: Run tests headless
+      - name: Run tests
         if: steps.fortnightly.outputs.run == 'true'
-        run: >-
-          python -m pytest
-          --override-ini
-          "addopts=--tracing retain-on-failure --video retain-on-failure --screenshot only-on-failure"
+        run: python -m pytest
 
-      - name: Upload Playwright artifacts
-        if: failure()
+      - name: Upload test results
+        if: always() && steps.fortnightly.outputs.run == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: |
-            test-results/
-            playwright-report/
+          name: test-results
+          path: results/
+          if-no-files-found: warn
+          retention-days: 14

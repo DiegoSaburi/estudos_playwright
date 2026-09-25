@@ -4,4 +4,10 @@ addopts = [
     "--tracing", "retain-on-failure",
     "--video", "retain-on-failure",
     "--screenshot", "only-on-failure",
+
+    "--alluredir", "results/allure-results",
+    "--html", "results/report.html",
+    "--self-contained-html",
+
+    "--output", "results/test-results",
 ]

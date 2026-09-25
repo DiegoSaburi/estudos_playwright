@@ -1,3 +1,5 @@
 pytest
 pytest-playwright
 PyYAML
+allure-pytest
+pytest-html
